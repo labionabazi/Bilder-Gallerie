@@ -5,5 +5,6 @@ require_once '../lib/Repository.php';
  */
   class LoginRepository extends Repository
   {
+
   }
 ?>

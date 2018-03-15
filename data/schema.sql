@@ -3,6 +3,8 @@ CREATE DATABASE IF NOT EXISTS `bilderdb`
   DEFAULT CHARACTER SET utf8
   COLLATE utf8_german2_ci;
 
+USE bilderdb;
+
 CREATE TABLE USER (
   UID       INT PRIMARY KEY AUTO_INCREMENT,
   EMAIL     VARCHAR(50),
@@ -43,4 +45,7 @@ INSERT INTO ROLE VALUES (2, "User", "Wenn der Benutzer Registriert und Eingelogg
 
 INSERT INTO USER VALUES (1, "admin@gmail.com", "Admin", "Root", "4e7afebcfbae000b22c7c85e5560f89a2a0280b4", 1);
 INSERT INTO USER VALUES (2, "user@gmail.com", "User", "Fritz", "9f8a2389a20ca0752aa9e95093515517e90e194c", 2);
+
+
+
 
