@@ -25,25 +25,40 @@ require_once '../repository/UserRepository.php';
     }
 
     public function create(){
+
+        $error = false;
+        $errors = [];
         if ($_POST['sendData']) {
             $userRepository = new UserRepository();
             $firstname = $_POST['firstname'];
             $surename = $_POST['surename'];
             $email = $_POST['email'];
-            $passwort = $_POST['passwort'];
+            $password = $_POST['passwort'];
+            $passwortRepeat = $_POST['passwortRepeat'];
 
-            $pwsha1 = sha1($passwort);
 
-            $role = 2;
+            if($userRepository->checkEmail($_POST['email']) == null){
+                if($password == $passwortRepeat){
+                    $role = 2;
+                    $pw = password_hash($password, PASSWORD_DEFAULT);
 
-            password_hash($pwsha1, PASSWORD_DEFAULT);
-
-            if($userRepository->createUser($firstname,$surename,$email,$pwsha1,$role) != null){
-                header('Location: '.$GLOBALS['appurl'].'/login');
+                    if($userRepository->createUser($firstname,$surename,$email,$pw,$role) != null){
+                        header('Location: '.$GLOBALS['appurl'].'/login');
+                    }
+                    else {
+                        $error = true;
+                    }
+                }else{
+                    $error = true;
+                }
             }
-            else {
-                echo "fehler";
+            else{
+                $error = true;
+
             }
+        }
+        if($error) {
+
         }
     }
 
@@ -61,7 +76,7 @@ require_once '../repository/UserRepository.php';
                 } else $error =true;
             } else $error = true;
         if($error){
-            echo "VerkaktHallo";
+            //echo "VerkaktHallo";
             array_push($errors, "Ungültige Login-Daten");
             //$this->displayErrors($errors, "/login");
         }
@@ -90,5 +105,6 @@ require_once '../repository/UserRepository.php';
         $view->display();
 
     }
+
 }
 ?>
