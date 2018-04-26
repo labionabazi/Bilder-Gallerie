@@ -20,8 +20,31 @@ require_once '../repository/UserRepository.php';
 
     }
 
-    public function create(){
+    public function displayErrors($errors, $location){
 
+    }
+
+    public function create(){
+        if ($_POST['sendData']) {
+            $userRepository = new UserRepository();
+            $firstname = $_POST['firstname'];
+            $surename = $_POST['surename'];
+            $email = $_POST['email'];
+            $passwort = $_POST['passwort'];
+
+            $pwsha1 = sha1($passwort);
+
+            $role = 2;
+
+            password_hash($pwsha1, PASSWORD_DEFAULT);
+
+            if($userRepository->createUser($firstname,$surename,$email,$pwsha1,$role) != null){
+                header('Location: '.$GLOBALS['appurl'].'/login');
+            }
+            else {
+                echo "fehler";
+            }
+        }
     }
 
     public function login(){
@@ -31,13 +54,10 @@ require_once '../repository/UserRepository.php';
             $userRepository = new UserRepository();
             if($userRepository->checkEmail($_POST['email'])){
                 $user = $userRepository->getUser($_POST['email']);
-                $pwSha1 =  $_POST['password'];
-
-                echo password_verify($pwSha1, $user->PASSWORD);
-                if(password_verify(sha1('Admin'), password_hash($user->PASSWORD,PASSWORD_DEFAULT))){
-                    echo "Hallo";
-                    $_SESSION['uid'] =$user->uid;
-                    header('Location: '.$GLOBALS['appurl'].'/galleries');
+                $pw =  $_POST['password'];
+                if(password_verify($pw, $user->PASSWORD)){
+                    $_SESSION['uid'] = $user->UID;
+                    header('Location: '.$GLOBALS['appurl'].'/gallerie/home');
                 } else $error =true;
             } else $error = true;
         if($error){
@@ -59,6 +79,16 @@ require_once '../repository/UserRepository.php';
       $view->title = 'Bilder-DB';
       $view->heading = 'Registration';
       $view->display();
+    }
+
+    public function logout(){
+        session_destroy();
+
+        $view = new View('login_index');
+        $view->title = 'Bilder-DB';
+        $view->heading = 'Login';
+        $view->display();
+
     }
 }
 ?>

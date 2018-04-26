@@ -8,6 +8,7 @@ class UserRepository extends Repository
     protected $tablename = 'user';
 
     public function checkEmail($email){
+        var_dump($email);
         $found = false;
         $query = "SELECT * FROM {$this->tablename} WHERE email = ?";
         $statement = ConnectionHandler::getConnection()->prepare($query);
@@ -15,8 +16,11 @@ class UserRepository extends Repository
         $statement->execute();
         $result = $statement->get_result();
         if(!$result) throw Exception($statement->error);
+        var_dump($result);
         if($result->num_rows > 0) $found = true;
         $result->close();
+//        $row = $result->fetch_object();
+//        if()
         return $found;
 
     }
@@ -31,6 +35,15 @@ class UserRepository extends Repository
         $row = $result->fetch_object();
         $result->close();
         return $row;
+    }
+
+    public function createUser($firstname, $surename, $email, $password, $role){
+        $query = "INSERT INTO {$this->tablename}(FIRSTANME,SURENAME,EMAIL,PASSWORD,ROLE) VALUES (?,?,?,?,?)";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('ssssi',$firstname,$surename ,$email ,$password ,$role);
+        if(!$statement->execute())throw Exception($statement->error);
+        return $statement->insert_id;
+
     }
 }
 

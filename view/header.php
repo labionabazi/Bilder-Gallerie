@@ -28,6 +28,8 @@
 			<!-- fix schf -->
             <li><a href="<?=$GLOBALS['appurl']?>/login">Login</a></li>
             <li><a href="<?=$GLOBALS['appurl']?>/login/registration">Registration</a></li>
+              <li><a href="<?=$GLOBALS['appurl']?>/login/logout">Logout</a></li>
+              "<li><div class='dropdown'><span>Eingeloggt als: "Benutzer"</span><div class='dropdown-content'><a href="<?=$GLOBALS['appurl']?>/login/logout">Logout</a></div></li>";
           </ul>
         </div><!--/.nav-collapse -->
       </div>
