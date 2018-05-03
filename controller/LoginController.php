@@ -21,6 +21,9 @@ require_once '../repository/UserRepository.php';
     }
 
     public function displayErrors($errors, $location){
+        //echo "Error G, mach doch besser!";
+        echo "<h4>Delano</h4>";
+
 
     }
 
@@ -35,30 +38,50 @@ require_once '../repository/UserRepository.php';
             $email = $_POST['email'];
             $password = $_POST['passwort'];
             $passwortRepeat = $_POST['passwortRepeat'];
+            $patternEmail = "/[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}/";
+            $patternPW = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/";
 
+            if(preg_match($patternEmail, $email) === 1){
 
-            if($userRepository->checkEmail($_POST['email']) == null){
-                if($password == $passwortRepeat){
-                    $role = 2;
-                    $pw = password_hash($password, PASSWORD_DEFAULT);
+                if(preg_match($patternPW, $password) === 1){
 
-                    if($userRepository->createUser($firstname,$surename,$email,$pw,$role) != null){
-                        header('Location: '.$GLOBALS['appurl'].'/login');
+                    if($userRepository->checkEmail($email) == null){
+
+                        if($password == $passwortRepeat){
+                            $role = 2;
+                            $pw = password_hash($password, PASSWORD_DEFAULT);
+
+                            if($userRepository->createUser($firstname,$surename,$email,$pw,$role) != null){
+                                header('Location: '.$GLOBALS['appurl'].'/login');
+                            }
+                            else {
+                                $error = true;
+                                array_push($errors, "User can not been created!");
+                            }
+                        }else{
+                            $error = true;
+                            array_push($errors, "Password repeation is not correct!");
+                        }
                     }
-                    else {
+                    else{
                         $error = true;
+                        array_push($errors, "Email already exists!");
                     }
-                }else{
-                    $error = true;
+
                 }
+                else{
+                    $error = true;
+                    array_push($errors, "Password is not valid!");
+                }
+
             }
             else{
                 $error = true;
-
+                array_push($errors, "Email is not valid!");
             }
         }
         if($error) {
-
+            $this->displayErrors($errors, "/login");
         }
     }
 
@@ -76,7 +99,6 @@ require_once '../repository/UserRepository.php';
                 } else $error =true;
             } else $error = true;
         if($error){
-            //echo "VerkaktHallo";
             array_push($errors, "Ungültige Login-Daten");
             //$this->displayErrors($errors, "/login");
         }

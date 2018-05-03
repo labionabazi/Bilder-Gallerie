@@ -6,6 +6,3 @@
  * Time: 10:17
  */
 
-
-echo "Hallo Peche";
-echo $_SESSION['uid'];
