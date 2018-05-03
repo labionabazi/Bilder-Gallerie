@@ -39,4 +39,8 @@
     </nav>
     <div class="container">
     <h3><?= $heading ?></h3>
+    <?php if(isset($_SESSION['Errors'])){
+        echo "fehlermeldung";
+        unset($_SESSION['Errors']);
+};?>
 

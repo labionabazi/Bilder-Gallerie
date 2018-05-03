@@ -23,6 +23,7 @@ require_once '../repository/UserRepository.php';
     public function displayErrors($errors, $location){
         //echo "Error G, mach doch besser!";
         echo "<h4>Delano</h4>";
+        $_SESSION['Errors'] = $errors;
 
 
     }
@@ -82,6 +83,7 @@ require_once '../repository/UserRepository.php';
         }
         if($error) {
             $this->displayErrors($errors, "/login");
+            header('Location: '.$GLOBALS['appurl'].'/login/registration');
         }
     }
 
