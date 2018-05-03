@@ -19,4 +19,21 @@ class GallerieController
         $view->session = $_SESSION['uid'];
         $view->display();
     }
+
+    public function displayErrors($errors, $location){
+        $_SESSION['errors'] = $errors;
+        header('Location: '.$GLOBALS['appurl'].$location);
+    }
+
+    public function newGallerie(){
+        $view = new View('pri_gallerie_create');
+        $view->title = 'Bilder-DB';
+        $view->heading = 'Create Gallerie';
+        $view->session = $_SESSION['uid'];
+        $view->display();
+    }
+
+    public function create(){
+
+    }
 }

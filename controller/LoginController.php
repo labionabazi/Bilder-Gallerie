@@ -23,8 +23,6 @@ require_once '../repository/UserRepository.php';
     public function displayErrors($errors, $location){
         $_SESSION['errors'] = $errors;
         header('Location: '.$GLOBALS['appurl'].$location);
-
-
     }
 
     public function create(){
@@ -120,11 +118,11 @@ require_once '../repository/UserRepository.php';
 
     public function logout(){
         session_destroy();
+        header('Location: '.$GLOBALS['appurl'].'/login');
 
-        $view = new View('login_index');
-        $view->title = 'Bilder-DB';
-        $view->heading = 'Login';
-        $view->display();
+    }
+
+    public function changeUser(){
 
     }
 
