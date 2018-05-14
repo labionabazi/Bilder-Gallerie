@@ -26,21 +26,39 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
 			<!-- fix schf -->
-              <?php if(empty($_SESSION['uid'])){
+              <?php
+
+              // Noch in Bearbeitung
+              $userRepository = new UserRepository();
+
+              if(empty($_SESSION['uid'])){
                   echo '<li><a href="'.$GLOBALS['appurl'].'/login">Login</a></li>';
                   echo '<li><a href="'.$GLOBALS['appurl'].'/login/registration">Registration</a></li>';
               }else{
-                  echo '<li><a href="'.$GLOBALS['appurl'].'/gallerie/home">Galleries</a></li>';
-                  echo '<li><div class="dropdown"><span>Eingeloggt als: <?="User";?></span><div class="dropdown-content"><a href="'.$GLOBALS['appurl'].'/login/logout">Logout</a></div></li>';
-              } ?>
+
+                  if($userRepository->getRole($_SESSION['uid']) == 1){
+                      echo '<li><a href="'.$GLOBALS['appurl'].'/gallerie/home">Galleries</a></li>';
+                      echo '<li><a href="'.$GLOBALS['appurl'].'/gallerie/newGallerie">New Gallerie</a></li>';
+                      echo '<li><div class="dropdown"><span>Eingeloggt als: <?="User";?></span><div class="dropdown-content"><a href="'.$GLOBALS['appurl'].'/login/logout">Logout</br></a><a href="'.$GLOBALS['appurl'].'/login/changeUser">Change User Data</a></div></li>';
+                      echo '<li><a href="'.$GLOBALS['appurl'].'/gallerie/home">ADMIN</a></li>';
+                  }else{
+                      echo '<li><a href="'.$GLOBALS['appurl'].'/gallerie/home">Galleries</a></li>';
+                      echo '<li><a href="'.$GLOBALS['appurl'].'/gallerie/newGallerie">New Gallerie</a></li>';
+                      echo '<li><div class="dropdown"><span>Eingeloggt als: <?="User";?></span><div class="dropdown-content"><a href="'.$GLOBALS['appurl'].'/login/logout">Logout</br></a><a href="'.$GLOBALS['appurl'].'/login/changeUser">Change User Data</a></div></li>';
+                  }
+              }
+
+              ?>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
     <div class="container">
     <h3><?= $heading ?></h3>
-    <?php if(isset($_SESSION['Errors'])){
-        echo "fehlermeldung";
-        unset($_SESSION['Errors']);
+    <?php if(isset($_SESSION['errors'])){
+        foreach ($_SESSION['errors'] as $value){
+            echo "<div class='alert alert-danger'>".$value."</div>";
+        }
+        unset($_SESSION['errors']);
 };?>
 

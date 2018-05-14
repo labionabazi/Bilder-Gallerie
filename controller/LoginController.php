@@ -21,11 +21,8 @@ require_once '../repository/UserRepository.php';
     }
 
     public function displayErrors($errors, $location){
-        //echo "Error G, mach doch besser!";
-        echo "<h4>Delano</h4>";
-        $_SESSION['Errors'] = $errors;
-
-
+        $_SESSION['errors'] = $errors;
+        header('Location: '.$GLOBALS['appurl'].$location);
     }
 
     public function create(){
@@ -82,8 +79,7 @@ require_once '../repository/UserRepository.php';
             }
         }
         if($error) {
-            $this->displayErrors($errors, "/login");
-            header('Location: '.$GLOBALS['appurl'].'/login/registration');
+            $this->displayErrors($errors, "/login/registration");
         }
     }
 
@@ -102,7 +98,7 @@ require_once '../repository/UserRepository.php';
             } else $error = true;
         if($error){
             array_push($errors, "Ungültige Login-Daten");
-            //$this->displayErrors($errors, "/login");
+            $this->displayErrors($errors, "/login");
         }
         }
     }
@@ -122,11 +118,11 @@ require_once '../repository/UserRepository.php';
 
     public function logout(){
         session_destroy();
+        header('Location: '.$GLOBALS['appurl'].'/login');
 
-        $view = new View('login_index');
-        $view->title = 'Bilder-DB';
-        $view->heading = 'Login';
-        $view->display();
+    }
+
+    public function changeUser(){
 
     }
 

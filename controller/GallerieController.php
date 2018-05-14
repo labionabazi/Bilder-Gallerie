@@ -24,9 +24,23 @@ class GallerieController
         $name = $_POST['name'];
         $description = $_POST['description'];
         $gallerieRepository = new GallerieRepository();
-        if($name != ""){
+        if ($name != "") {
             $gallerieRepository->createGallerie($uid, $name, $description);
         }
-        header('Location: '.$GLOBALS['appurl'].'/gallerie/home');
+        header('Location: ' . $GLOBALS['appurl'] . '/gallerie/home');
     }
+
+    public function displayErrors($errors, $location){
+        $_SESSION['errors'] = $errors;
+        header('Location: '.$GLOBALS['appurl'].$location);
+    }
+
+    public function newGallerie(){
+        $view = new View('pri_gallerie_create');
+        $view->title = 'Bilder-DB';
+        $view->heading = 'Create Gallerie';
+        $view->session = $_SESSION['uid'];
+        $view->display();
+    }
+
 }
