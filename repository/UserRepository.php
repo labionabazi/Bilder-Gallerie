@@ -47,7 +47,7 @@ class UserRepository extends Repository
     }
 
     public function getRole($uid){
-        $query = "SELECT role FROM {$this->tablename} WHERE uid = ?";
+        $query = "SELECT role FROM {$this->tablename} WHERE uid = (?)";
         $statement = ConnectionHandler::getConnection()->prepare($query);
         $statement->bind_param('i',$uid);
         $statement->execute();
