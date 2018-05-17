@@ -117,8 +117,12 @@ require_once '../repository/UserRepository.php';
     }
 
     public function logout(){
-        session_destroy();
-        header('Location: '.$GLOBALS['appurl'].'/login');
+        if(!empty($_SESSION['uid'])) {
+            session_destroy();
+            header('Location: ' . $GLOBALS['appurl'] . '/login');
+        }else{
+                header('Location: ' . $GLOBALS['appurl'] . '/login');
+            }
 
     }
 
