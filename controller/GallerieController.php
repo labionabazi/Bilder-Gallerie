@@ -16,6 +16,8 @@ class GallerieController
         $view->title = 'Bilder-DB';
         $view->heading = 'Home Gallerie';
         $view->session = $_SESSION['uid'];
+        $gallerieRepository = new GallerieRepository();
+        $view->gallerie = $gallerieRepository->showGallerie($_SESSION['uid']);
         $view->display();
     }
 
@@ -40,6 +42,16 @@ class GallerieController
         $view->title = 'Bilder-DB';
         $view->heading = 'Create Gallerie';
         $view->session = $_SESSION['uid'];
+        $view->display();
+    }
+
+    public function gallerieDetails(){
+        $view = new View('pri_gallerie_details');
+        $view->title = 'Bilder-DB';
+        $view->heading = 'Details';
+        $view->session = $_SESSION['uid'];
+        $gallerieRepository = new GallerieRepository();
+        $view->gallerie = $gallerieRepository->showGallerieDetails($_GET['gid']);
         $view->display();
     }
 
