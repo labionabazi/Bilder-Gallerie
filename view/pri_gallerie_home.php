@@ -1,5 +1,6 @@
 <?php
 echo '<button class="btn btn-info" style="margin: 0 0 5px 0">Add Gallerie</button>';
+if(isset($gallerie)){
 for($i = 0; $i < count($gallerie); $i++){
     echo '<div class="card">';
     echo '<img src="" style="width:100%">';
@@ -8,6 +9,9 @@ for($i = 0; $i < count($gallerie); $i++){
     echo '<p>'.$gallerie[$i]->DESCRIPTION.'</p>';
     echo '<a class="btn btn-primary" style="margin: 0 0 10px 0" href="'.$GLOBALS['appurl'].'/gallerie/gallerieDetails?gid='.$gallerie[$i]->GID.'">Details</a>';
     echo '</div></div>';
+}}
+else{
+    echo "Du hast noch keine gallerien";
 }
 ?>
 
