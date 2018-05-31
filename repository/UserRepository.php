@@ -37,6 +37,18 @@ class UserRepository extends Repository
         return $row;
     }
 
+    public function getUserById($uid){
+        $query = "SELECT * FROM {$this->tablename} WHERE uid = ?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('i',$uid);
+        $statement->execute();
+        $result = $statement->get_result();
+        if(!$result) throw Exception($statement->error);
+        $row = $result->fetch_object();
+        $result->close();
+        return $row;
+    }
+
     public function createUser($firstname, $surename, $email, $password, $role){
         $query = "INSERT INTO {$this->tablename}(FIRSTANME,SURENAME,EMAIL,PASSWORD,ROLE) VALUES (?,?,?,?,?)";
         $statement = ConnectionHandler::getConnection()->prepare($query);
