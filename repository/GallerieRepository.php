@@ -39,4 +39,16 @@ class GallerieRepository
         $result->close();
         return $row;
     }
+
+    public function getGallerieID($uid){
+        $query = "SELECT gid FROM {$this->tablename} WHERE uid = (?)";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('i',$uid);
+        $statement->execute();
+        $result = $statement->get_result();
+        if(!$result) throw Exception($statement->error);
+        $row = $result->fetch_object();
+        $result->close();
+        return $row;
+    }
 }

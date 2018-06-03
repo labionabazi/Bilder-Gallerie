@@ -65,7 +65,7 @@ class PictureController
                         array_push($tagIds, $id);
                     }
 
-                    $gid = 1;
+                    $gid = $_SESSION['gid'];
                     $pid = $PictureRepository->maxId()->pid + 1;
                     var_dump($pid);
                     $tags = "";
