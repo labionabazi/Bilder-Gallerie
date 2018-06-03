@@ -126,9 +126,5 @@ require_once '../repository/UserRepository.php';
 
     }
 
-    public function changeUser(){
-
-    }
-
 }
 ?>

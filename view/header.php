@@ -46,7 +46,7 @@
                             <button class="dropbtn">Eingeloggt als: '.$user->FIRSTNAME.'</button>
                             <div class="dropdown-content">
                             <a href="'.$GLOBALS['appurl'].'/login/logout">Logout</a>
-                            <a href="'.$GLOBALS['appurl'].'/login/changeUser">Change User Data</a>
+                            <a href="'.$GLOBALS['appurl'].'/user/changeUser">Change User Data</a>
                             </div>
                             </div>';
                       echo '<li><a href="'.$GLOBALS['appurl'].'/gallerie/home">Admin</a></li>';
@@ -56,7 +56,7 @@
                             <button class="dropbtn">Eingeloggt als: '.$user->FIRSTNAME.'</button>
                             <div class="dropdown-content">
                             <a href="'.$GLOBALS['appurl'].'/login/logout">Logout</a>
-                            <a href="'.$GLOBALS['appurl'].'/login/changeUser">Change User Data</a>
+                            <a href="'.$GLOBALS['appurl'].'/user/changeUser">Change User Data</a>
                             </div>
                             </div>';
                   }
