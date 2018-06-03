@@ -11,26 +11,28 @@ class PictureRepository
     protected $tablename = 'picture';
     protected $gallerieTable = 'gallerie';
     protected $picGallTable = 'gallerie_picture';
-    protected $tagsGallerie = 'tags';
 
-    // Bild in DB Specihern
-    public function createEntry($picture, $gid, $tags)
+    // Bild in DB Speichern
+    public function createPictureEntry($pid, $picture,$title, $description)
     {
-        $query = "INSERT INTO {$this->tablename}(picture,title,description) VALUES (?,?,?)";
+        $query = "INSERT INTO {$this->tablename}(pid, picture,title,description) VALUES (?,?,?,?)";
         $statement = ConnectionHandler::getConnection()->prepare($query);
-        $statement->bind_param('iss', $uid, $name, $description);
+        $statement->bind_param('isss', $pid, $picture, $title, $description);
         if (!$statement->execute()) throw Exception($statement->error);
         return $statement->insert_id;
     }
 
-    public function insertTags($tags)
-    {
-
+    public function addPictureToGallerie($gid, $pid){
+        $query = "INSERT INTO {$this->picGallTable}(gid, pid) VALUES (?,?)";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('ii', $gid, $pid);
+        if (!$statement->execute()) throw Exception($statement->error);
+        return $statement->insert_id;
     }
 
     public function maxId()
     {
-        $query = "SELECT max(pid) FROM {$this->tablename}";
+        $query = "SELECT max(pid) as pid FROM {$this->tablename}";
         $statement = ConnectionHandler::getConnection()->prepare($query);
         $statement->execute();
         $result = $statement->get_result();
