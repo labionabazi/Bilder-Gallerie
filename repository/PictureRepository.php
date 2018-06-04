@@ -43,4 +43,49 @@ class PictureRepository
 
     }
 
+    public function getPictureByPID($pid)
+    {
+        $query = "SELECT * FROM {$this->tablename} where pid = ?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('i',$pid);
+        $statement->execute();
+        $result = $statement->get_result();
+        if(!$result) throw Exception($statement->error);
+        $row = $result->fetch_object();
+        $result->close();
+        return $row;
+
+    }
+
+    public function getPicturesByGid($gid)
+    {
+        $query = "select GID,P.PID, PICTURE,TITLE,DESCRIPTION from {$this->picGallTable} as GP join PICTURE as P on P.PID = GP.PID where GID = ?;";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('i',$gid);
+        $statement->execute();
+        $result = $statement->get_result();
+        $rows = array();
+        while($row =$result->fetch_object()){
+            $rows[] = $row;
+        }
+        if(!$result) throw new Exception($statement->error);
+        $row = $result->fetch_object();
+        $result->close();
+        return $rows;
+    }
+
+    public function adminDeletePicture($uid){
+        $query = "DELETE FROM {$this->tablename} WHERE uid = ?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('i',$uid);
+        $statement->execute();
+    }
+
+    public function deletePicture($pid){
+        $query = "DELETE FROM {$this->tablename} WHERE pid = ?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('i',$pid);
+        $statement->execute();
+    }
+
 }

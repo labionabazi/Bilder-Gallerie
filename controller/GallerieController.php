@@ -2,6 +2,7 @@
 
 require_once '../repository/UserRepository.php';
 require_once '../repository/GallerieRepository.php';
+require_once '../repository/PictureRepository.php';
 
 class GallerieController
 {
@@ -58,12 +59,14 @@ class GallerieController
 
     public function gallerieDetails()
     {
+        $pictureRepository = new PictureRepository();
         $view = new View('pri_gallerie_details');
         $view->title = 'Bilder-DB';
         $view->heading = 'Details';
         $view->session = $_SESSION['uid'];
         $gallerieRepository = new GallerieRepository();
         $view->gallerie = $gallerieRepository->showGallerieDetails($_GET['gid']);
+        $view->pictures = $pictureRepository->getPicturesByGid($_GET['gid']);
         $view->display();
     }
 
