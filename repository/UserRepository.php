@@ -69,6 +69,23 @@ class UserRepository extends Repository
         $result->close();
         return $row;
     }
-}
 
+    public function changeUserData($uid, $email, $firstname, $surename, $password){
+        $query = "UPDATE {$this->tablename} SET EMAIL = ?, FIRSTNAME = ?, SURENAME = ?, PASSWORD = ? WHERE UID = ? ";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('ssssi', $email, $firstname, $surename, $password, $uid);
+        $statement->execute();
+        if(!$statement->execute())throw Exception($statement->error);
+        return $statement->insert_id;
+    }
+
+    public function changeUserDataWithoutPassword($uid, $email, $firstname, $surename){
+        $query = "UPDATE {$this->tablename} SET EMAIL = ?, FIRSTNAME = ?, SURENAME = ? WHERE UID = ? ";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('sssi', $email, $firstname, $surename, $uid);
+        $statement->execute();
+        if(!$statement->execute())throw Exception($statement->error);
+        return $statement->insert_id;
+    }
+}
 ?>
