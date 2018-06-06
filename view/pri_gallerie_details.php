@@ -6,7 +6,7 @@ echo '<h7>'.$gallerie->DESCRIPTION.'</h7>';
 echo '<div>';
 echo '</div>';
 
-$baseUrl ="/m151/Bilder-Gallerie";
+$baseUrl ="/m151/Bilder-Gallerie/pictures/";
 for($i=0; $i< count($pictures);$i++) {
     echo "<div>";
     echo "<img src=" . $baseUrl . $pictures[$i]->PICTURE . ">";

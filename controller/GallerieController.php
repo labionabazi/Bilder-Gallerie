@@ -28,9 +28,12 @@ class GallerieController
             $uid = $_SESSION['uid'];
             $name = $_POST['name'];
             $description = $_POST['description'];
+            $rid = 3;
             $gallerieRepository = new GallerieRepository();
             if ($name != "") {
-                $gallerieRepository->createGallerie($uid, $name, $description);
+                $gallerieRepository->createGallerie($name, $description);
+                $gid = $gallerieRepository->selectGallerieId($name,$description);
+                $gallerieRepository->createGallerieUser($uid, $gid, $rid);
             }
             header('Location: ' . $GLOBALS['appurl'] . '/gallerie/home');
         } else {

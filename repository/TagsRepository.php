@@ -10,7 +10,7 @@ require_once '../repository/TagsRepository.php';
 
 class TagsRepository
 {
-    protected $tablename = 'TAGS';
+    protected $tablename = 'tags';
     protected $tagPicture = 'tag_picture';
 
     public function addTagsToPicture($pid, $tags){
@@ -30,6 +30,28 @@ class TagsRepository
         return $statement->insert_id;
     }
 
+    public function selectTagIdfromTag_Picture($pid){
+        $query = "SELECT TID FROM {$this->tagPicture} WHERE PID = ?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('i',$pid);
+        $statement->execute();
+        $result = $statement->get_result();
+        $rows = array();
+        while($row = $result->fetch_object()){
+            $rows[]= $row;
+        }
+        if(!$result) throw Exception($statement->error);
+        $result->close();
+        return $rows;
+    }
+
+    public function deletePictureTag($pid){
+        $query = "DELETE FROM {$this->tagPicture} WHERE pid = ?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('i',$pid);
+        $statement->execute();
+    }
+
     public function selectTagId($tag, $desctiption)
     {
 
@@ -45,5 +67,12 @@ class TagsRepository
         $row = $result->fetch_object();
         $result->close();
         return $row;
+    }
+
+    public function deleteTag($tid){
+        $query = "DELETE FROM {$this->tablename} WHERE tid = ?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('i',$tid);
+        $statement->execute();
     }
 }
