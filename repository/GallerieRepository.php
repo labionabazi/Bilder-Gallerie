@@ -6,10 +6,10 @@ class GallerieRepository
     protected $tablename = 'gallerie';
     protected $gallerieUse = 'GALLERIE_USER';
 
-    public function createGallerie($name, $description){
-        $query = "INSERT INTO {$this->tablename}(NAME,DESCRIPTION) VALUES (?,?)";
+    public function createGallerie($name, $description, $uid){
+        $query = "INSERT INTO {$this->tablename}(NAME,DESCRIPTION,UID) VALUES (?,?, ?)";
         $statement = ConnectionHandler::getConnection()->prepare($query);
-        $statement->bind_param('ss',$name,$description);
+        $statement->bind_param('ssi',$name,$description,$uid);
         if(!$statement->execute())throw Exception($statement->error);
         return $statement->insert_id;
     }
@@ -23,7 +23,7 @@ class GallerieRepository
     }
 
     public function showGallerie($uid){
-        $query = "SELECT * FROM {$this->tablename} g join GALLERIE_USER gu on g.gid = gu.gid  WHERE UID = ?";
+        $query = "SELECT * FROM {$this->tablename} WHERE UID = ?";
         $statement = ConnectionHandler::getConnection()->prepare($query);
         $statement->bind_param('i',$uid);
         $statement->execute();
@@ -50,7 +50,7 @@ class GallerieRepository
     }
 
     public function getGallerieID($uid){
-        $query = "SELECT gid FROM {$this->tablename} g join GALLERIE_USER gu on g.gid = gu.gid WHERE gu.uid = (?)";
+        $query = "SELECT gid FROM {$this->tablename} WHERE uid = (?)";
         $statement = ConnectionHandler::getConnection()->prepare($query);
         $statement->bind_param('i',$uid);
         $statement->execute();
@@ -61,10 +61,10 @@ class GallerieRepository
         return $row;
     }
 
-    public function selectGallerieId($name,$description){
-        $query = "SELECT gid FROM {$this->tablename} WHERE name = ? and description = ?";
+    public function selectGallerieId($name,$description,$uid){
+        $query = "SELECT gid FROM {$this->tablename} WHERE name = ? and description = ? and uid = ?";
         $statement = ConnectionHandler::getConnection()->prepare($query);
-        $statement->bind_param('ss',$name, $description);
+        $statement->bind_param('ssi',$name, $description,$uid);
         $statement->execute();
         $result = $statement->get_result();
         if(!$result) throw Exception($statement->error);

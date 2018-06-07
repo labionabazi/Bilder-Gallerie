@@ -19,7 +19,6 @@ class GallerieController
         } else {
             header('Location: ' . $GLOBALS['appurl'] . '/login');
         }
-
     }
 
     public function createGallerie()
@@ -28,12 +27,9 @@ class GallerieController
             $uid = $_SESSION['uid'];
             $name = $_POST['name'];
             $description = $_POST['description'];
-            $rid = 3;
             $gallerieRepository = new GallerieRepository();
             if ($name != "") {
-                $gallerieRepository->createGallerie($name, $description);
-                $gid = $gallerieRepository->selectGallerieId($name,$description);
-                $gallerieRepository->createGallerieUser($uid, $gid, $rid);
+                $gallerieRepository->createGallerie($name, $description,$uid);
             }
             header('Location: ' . $GLOBALS['appurl'] . '/gallerie/home');
         } else {
@@ -72,5 +68,4 @@ class GallerieController
         $view->pictures = $pictureRepository->getPicturesByGid($_GET['gid']);
         $view->display();
     }
-
 }

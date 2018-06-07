@@ -87,5 +87,21 @@ class UserRepository extends Repository
         if(!$statement->execute())throw Exception($statement->error);
         return $statement->insert_id;
     }
+
+    public function selectUserFromGallerie($uid){
+        $query = "select gu.gid from user u join gallerie_user gu on gu.gid = u.gid where u.uid = ?";
+    }
+
+    public function selectPicturesFromGallerie($uid){
+        $query = "select gu.gid from user u join gallerie_user gu on gu.gid = u.gid where u.uid = ?";
+    }
+
+    public function selectUserGallerie($uid){
+        $query = "select gu.gid from user u join gallerie_user gu on gu.gid = u.gid where u.uid = ?";
+    }
+
+    public function selectTagsFromPicture($uid){
+        $query = "select tp.tid from tag_picture tp join picture p on tp.pid = p.pid where p.pid = tp.pid;";
+    }
 }
 ?>
