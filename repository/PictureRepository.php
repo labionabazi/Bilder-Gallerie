@@ -10,21 +10,20 @@ class PictureRepository
 {
     protected $tablename = 'picture';
     protected $gallerieTable = 'gallerie';
-    protected $picGallTable = 'gallerie_picture';
     protected $tagPicture = 'tag_picture';
 
     // Bild in DB Speichern
-    public function createPictureEntry($pid, $picture, $thumbnail ,$title, $description)
+    public function createPictureEntry($pid, $picture, $thumbnail ,$title, $description,$gid)
     {
-        $query = "INSERT INTO {$this->tablename}(PID, PICTURE, THUMB, TITLE, DESCRIPTION) VALUES (?,?,?,?,?)";
+        $query = "INSERT INTO {$this->tablename}(PID, PICTURE, THUMB, TITLE, DESCRIPTION, GID) VALUES (?,?,?,?,?,?)";
         $statement = ConnectionHandler::getConnection()->prepare($query);
-        $statement->bind_param('issss', $pid, $picture, $thumbnail, $title, $description);
+        $statement->bind_param('issssi', $pid, $picture, $thumbnail, $title, $description, $gid);
         if (!$statement->execute()) throw Exception($statement->error);
         return $statement->insert_id;
     }
 
     public function addPictureToGallerie($gid, $pid){
-        $query = "INSERT INTO {$this->picGallTable}(gid, pid) VALUES (?,?)";
+        $query = "INSERT INTO {$this->gallerieTable}(gid, pid) VALUES (?,?)";
         $statement = ConnectionHandler::getConnection()->prepare($query);
         $statement->bind_param('ii', $gid, $pid);
         if (!$statement->execute()) throw Exception($statement->error);
@@ -60,7 +59,7 @@ class PictureRepository
 
     public function getPicturesByGid($gid)
     {
-        $query = "select GID,P.PID, PICTURE,TITLE,DESCRIPTION from {$this->picGallTable} as GP join PICTURE as P on P.PID = GP.PID where GID = ?;";
+        $query = "select GID,PID, PICTURE,TITLE,DESCRIPTION from {$this->tablename} where GID = ?;";
         $statement = ConnectionHandler::getConnection()->prepare($query);
         $statement->bind_param('i',$gid);
         $statement->execute();
@@ -75,10 +74,10 @@ class PictureRepository
         return $rows;
     }
 
-    public function adminDeletePicture($uid){
-        $query = "DELETE FROM {$this->tablename} WHERE uid = ?";
+    public function adminDeletePicture($gid){
+        $query = "DELETE FROM {$this->tablename} WHERE gid = ?";
         $statement = ConnectionHandler::getConnection()->prepare($query);
-        $statement->bind_param('i',$uid);
+        $statement->bind_param('i',$gid);
         $statement->execute();
     }
 
