@@ -1,14 +1,35 @@
-<?php
-echo '<h2>File uploading</h2>';
-echo '<form action="'.$GLOBALS['appurl'].'/picture/create?gid='.$gid.'" method="post" enctype="multipart/form-data">';
-echo '<p>';
-echo 'File : <input type="file" name="upload">';
-echo '</p>';
-echo '<label for="title">Title</label> <input type="text" name="Title"><br>';
-echo '<label for="Description">Description</label><input type="text" name="Description"><br>';
-echo '<label for="tags">Tags:</label><textarea id="tags" name="Tags" rows="4" cols="50">';
-echo '</textarea>';
-echo '<p><small>Tags mit Komma(,) Separieren!!</small></p>';
-echo '</br><input type="submit" value="Upload Picture" name="send">';
-echo '</form></body></html>';
-?>
+<form class="form-horizontal" action=<?php echo ''.$GLOBALS['appurl'].'/picture/create?gid=1'; ?> method="POST">
+    <div class="component" data-html="true">
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="textinput">File</label>
+            <div class="col-md-4">
+                <input name="upload" type="file" class="btn btn-info">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="textinput">Title</label>
+            <div class="col-md-4">
+                <input name="Title" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="textinput">Description</label>
+            <div class="col-md-4">
+                <input name="Description" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="textinput">Tags</label>
+            <div class="col-md-4">
+                <textarea id="tags" name="Tags" type="text" class="form-control"></textarea>
+                <p><small>Tags mit Komma(,) Separieren!!</small></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <p class="col-md-2"></p>
+            <div class="col-md-4">
+                <input type="submit" value="Upload Picture" name="send" class="btn btn-success">
+            </div>
+        </div>
+    </div>
+</form>
