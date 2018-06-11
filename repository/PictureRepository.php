@@ -30,6 +30,14 @@ class PictureRepository
         return $statement->insert_id;
     }
 
+    public function updatePicture($pid, $title, $description){
+        $query = "UPDATE {$this->tablename} SET TITLE = ?, DESCRIPTION = ? where PID = ?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('ssi', $title, $description, $pid);
+        if (!$statement->execute()) throw Exception($statement->error);
+        return $statement->insert_id;
+    }
+
     public function maxId()
     {
         $query = "SELECT max(pid) as pid FROM {$this->tablename}";
@@ -54,12 +62,11 @@ class PictureRepository
         $row = $result->fetch_object();
         $result->close();
         return $row;
-
     }
 
     public function getPicturesByGid($gid)
     {
-        $query = "select GID,PID, PICTURE,TITLE,DESCRIPTION from {$this->tablename} where GID = ?;";
+        $query = "select p.GID,p.PID, p.PICTURE,p.TITLE,p.DESCRIPTION, p.THUMB, t.tag TAG, t.tid TID from {$this->tablename} p join tag_picture tp on tp.pid = p.pid join tags t on t.tid = tp.tid  where p.GID = ?;";
         $statement = ConnectionHandler::getConnection()->prepare($query);
         $statement->bind_param('i',$gid);
         $statement->execute();
