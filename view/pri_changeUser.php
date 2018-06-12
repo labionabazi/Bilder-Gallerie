@@ -31,9 +31,12 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-2" control-label'="" for="textinput">&nbsp;</label>
-            <div class="col-md-4">
-                <input name="sendData" type="submit" class="btn btn-success" value="Update Data">
+            <label class="col-md-2" control-label'="" for="textinput"></label>
+            <div class="col-md-2">
+                <button name="sendData" type="submit" class="btn btn-success">Update Data</button>
+            </div>
+            <div class="col-md-2">
+                <button name="deleteUser" type="submit" class="btn btn-danger">Delete my Account</button>
             </div>
         </div>
     </div>

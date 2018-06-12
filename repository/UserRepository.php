@@ -49,6 +49,21 @@ class UserRepository extends Repository
         return $row;
     }
 
+    public function getUsersbyRole($rid){
+        $query = "SELECT * FROM {$this->tablename} WHERE role = (?)";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('i',$rid);
+        $statement->execute();
+        $result = $statement->get_result();
+        $rows = array();
+        while($row = $result->fetch_object()){
+            $rows[]= $row;
+        }
+        if(!$result) throw Exception($statement->error);
+        $result->close();
+        return $rows;
+    }
+
     public function createUser($firstname, $surename, $email, $password, $role){
         $query = "INSERT INTO {$this->tablename}(FIRSTNAME,SURENAME,EMAIL,PASSWORD,ROLE) VALUES (?,?,?,?,?)";
         $statement = ConnectionHandler::getConnection()->prepare($query);
@@ -60,6 +75,18 @@ class UserRepository extends Repository
 
     public function getRole($uid){
         $query = "SELECT role FROM {$this->tablename} WHERE uid = (?)";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('i',$uid);
+        $statement->execute();
+        $result = $statement->get_result();
+        if(!$result) throw Exception($statement->error);
+        $row = $result->fetch_object();
+        $result->close();
+        return $row;
+    }
+
+    public function getRoleID($uid){
+        $query = "SELECT role FROM {$this->tablename} where uid = (?)";
         $statement = ConnectionHandler::getConnection()->prepare($query);
         $statement->bind_param('i',$uid);
         $statement->execute();
@@ -88,20 +115,13 @@ class UserRepository extends Repository
         return $statement->insert_id;
     }
 
-    public function selectUserFromGallerie($uid){
-        $query = "select gu.gid from user u join gallerie_user gu on gu.gid = u.gid where u.uid = ?";
-    }
-
-    public function selectPicturesFromGallerie($uid){
-        $query = "select gu.gid from user u join gallerie_user gu on gu.gid = u.gid where u.uid = ?";
-    }
-
-    public function selectUserGallerie($uid){
-        $query = "select gu.gid from user u join gallerie_user gu on gu.gid = u.gid where u.uid = ?";
-    }
-
-    public function selectTagsFromPicture($uid){
-        $query = "select tp.tid from tag_picture tp join picture p on tp.pid = p.pid where p.pid = tp.pid;";
+    public function deleteUser($uid){
+        $query = "DELETE FROM {$this->tablename} where uid = ?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('i', $uid);
+        $statement->execute();
+        if(!$statement->execute())throw Exception($statement->error);
+        return $statement->insert_id;
     }
 }
 ?>
