@@ -50,7 +50,7 @@ class UserRepository extends Repository
     }
 
     public function createUser($firstname, $surename, $email, $password, $role){
-        $query = "INSERT INTO {$this->tablename}(FIRSTANME,SURENAME,EMAIL,PASSWORD,ROLE) VALUES (?,?,?,?,?)";
+        $query = "INSERT INTO {$this->tablename}(FIRSTNAME,SURENAME,EMAIL,PASSWORD,ROLE) VALUES (?,?,?,?,?)";
         $statement = ConnectionHandler::getConnection()->prepare($query);
         $statement->bind_param('ssssi',$firstname,$surename ,$email ,$password ,$role);
         if(!$statement->execute())throw Exception($statement->error);

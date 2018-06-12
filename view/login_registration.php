@@ -1,30 +1,40 @@
-<?php
-
-  /**
-   * Registratons-Formular
-   * Das Formular wird mithilfe des Formulargenerators erstellt.
-   */
-
-/**
- * Registratons-Formular
- * Das Formular wird mithilfe des Formulargenerators erstellt.
- */
-/**
- * Registration-Formular
- * Das Formular wird mithilfe des Formulargenerators erstellt.
- */
-$lblClass = "col-md-2";
-$eltClass = "col-md-4";
-$btnClass = "btn btn-success";
-$form = new Form($GLOBALS['appurl'] . "/login/create");
-$button = new ButtonBuilder();
-echo $form->input()->label('Firstname')->name('firstname')->type('text')->lblClass($lblClass)->eltClass($eltClass);
-echo $form->input()->label('Surename')->name('surename')->type('text')->lblClass($lblClass)->eltClass($eltClass);
-echo $form->input()->label('E-Mail')->name('email')->type('email')->lblClass($lblClass)->eltClass($eltClass);
-echo $form->input()->label('Passwort')->name('passwort')->type('password')->lblClass($lblClass)->eltClass($eltClass);
-echo $form->input()->label('Passwort Repeat')->name('passwortRepeat')->type('password')->lblClass($lblClass)->eltClass($eltClass);
-echo $button->start($lblClass, $eltClass);
-echo $button->label('Register')->name('sendData')->type('submit')->class('btn-success');
-echo $button->end();
-echo $form->end();
-?>
+<form class="form-horizontal" action=<?php echo ''.$GLOBALS['appurl'].'/login/create'; ?> method="POST">
+  <div class="component" data-html="true">
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="textinput">Firstname</label>
+      <div class="col-md-4">
+        <input name="firstname" type="text" value="" class="form-control">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="textinput">Surename</label>
+      <div class="col-md-4">
+        <input name="surename" type="text" value="" class="form-control">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="textinput">E-Mail</label>
+      <div class="col-md-4">
+        <input name="email" type="email" value="" class="form-control">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="textinput">Passwort</label>
+      <div class="col-md-4">
+        <input name="passwort" type="password" value="" class="form-control">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="textinput">Passwort Repeat</label>
+      <div class="col-md-4">
+        <input name="passwortRepeat" type="password" value="" class="form-control">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-2" control-label'="" for="textinput">&nbsp;</label>
+      <div class="col-md-4">
+        <input name="sendData" type="submit" class="btn btn-success" value="Register">
+      </div>
+    </div>
+  </div>
+</form>

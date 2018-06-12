@@ -1,3 +1,4 @@
+
 <?php
 
 
@@ -21,6 +22,4 @@ echo '<form class="" action="' . $GLOBALS['appurl'] . '/picture/edit?gid='.$gall
                     <div class="col-md-4">
                         <input name="send" id="submitGallerie" type="submit" class="btn btn-success" value="Change">
                     </div>
-                </div>
-            </div>
-        </form>';
+                </div>';

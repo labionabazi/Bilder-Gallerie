@@ -1,10 +1,11 @@
 <?php
-echo '<a class="btn btn-info" href="'.$GLOBALS['appurl'].'/picture/newPicture?gid='.$gallerie->GID.'">Add Picture</a>';
-echo '<h2>#'.$gallerie->GID.'</h2>';
-echo '<h5>'.$gallerie->NAME.'</h5>';
-echo '<h7>'.$gallerie->DESCRIPTION.'</h7>';
-echo '<div>';
-echo '</div>';
+echo '<a class="btn btn-info" href="' . $GLOBALS['appurl'] . '/picture/newPicture?gid=' . $gallerie->GID . '">Add Picture</a>
+      <h2>#' . $gallerie->GID . '</h2>
+      <h5>' . $gallerie->NAME . '</h5>
+      <h7>' . $gallerie->DESCRIPTION . '</h7>
+      <div></div>';
+$baseUrl = "/m151/Bilder-Gallerie/pictures/";
+
 
 $baseUrl ="/m151/Bilder-Gallerie/thumbs/";
 //for($i=0; $i< count($pictures);$i++) {
