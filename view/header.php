@@ -8,9 +8,10 @@
     <link rel="stylesheet" href="<?=$GLOBALS['appurl']?>/css/bootstrap.min.css">
     <!-- Custom styles for this template -->
     <link href="<?=$GLOBALS['appurl']?>/css/style.css" rel="stylesheet">
-    <script src="<?=$GLOBALS['appurl']?>/js/jscript.js"></script>
-    <script src="<?=$GLOBALS['appurl']?>/js/jquery.min.js"></script>
-    <script src="<?=$GLOBALS['appurl']?>/js/app.js"></script>
+	<script src="<?=$GLOBALS['appurl']?>/js/jscript.js"></script>
+      <script src="<?=$GLOBALS['appurl']?>/js/jquery.min.js"></script>
+      <script src="<?=$GLOBALS['appurl']?>/js/app.js"></script>
+      <script src="<?=$GLOBALS['appurl']?>/js/custom.js"></script>
     <title><?= $title ?></title>
 </head>
 <body>

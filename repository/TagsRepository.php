@@ -21,6 +21,22 @@ class TagsRepository
         return $statement->insert_id;
     }
 
+    public function getTagsByPid($pid){
+        $query = "select t.tid TID, TAG, tp.pid PID from {$this->tablename} t join tag_picture tp on tp.tid = t.tid where tp.pid = ?;";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('i',$pid);
+        $statement->execute();
+        $result = $statement->get_result();
+        $rows = array();
+        while($row =$result->fetch_object()){
+            $rows[] = $row;
+        }
+        if(!$result) throw new Exception($statement->error);
+        $row = $result->fetch_object();
+        $result->close();
+        return $rows;
+    }
+
     public function insertTags($tags, $description)
     {
         $query = "INSERT INTO {$this->tablename}(TAG,DESCRIPTION) VALUES (?,?)";
