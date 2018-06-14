@@ -61,6 +61,19 @@ class PictureController
         $view->display();
     }
 
+    public function showLightboxPic(){
+        $pictureRepository = new PictureRepository();
+        $gallerieRepository = new GallerieRepository();
+        //$view = new View('OnlyPicture');
+        $view = new View('pri_show_lightbox');
+        $view->title = 'Bilder-DB';
+        $view->heading = 'Lightbox';
+        $view->session = $_SESSION['uid'];
+        $view->gallerie = $gallerieRepository->showGallerieDetails($_GET['gid']);
+        $view->picture = $pictureRepository->getPictureByPID($_GET['pid']);
+        $view->display();
+    }
+
     public function edit()
     {
         if (!empty($_SESSION['uid'])) {
@@ -126,7 +139,7 @@ class PictureController
                     $tagString = $_POST['Tags'];
                     $Title = $_POST['Title'];
                     $Description = $_POST['Description'];
-                    //var_dump($file_type);
+                    var_dump($file_type);
                     if ($file_type == "image/jpeg") {
 
                         if (getimagesize($file_tmp_name)) {
@@ -135,10 +148,10 @@ class PictureController
 
                             var_dump($filesize);
 
-                            if($filesize > 4){
-                                
-                            }
-                            xdebug_break();
+//                            if($filesize > 4){
+//
+//                            }
+//                            xdebug_break();
                             $tagsArray = explode(',', $tagString);
                             var_dump($Title);
                             var_dump($Description);
