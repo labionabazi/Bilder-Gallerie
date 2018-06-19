@@ -1,6 +1,8 @@
 <?php
 if (isset($gallerie))
 {
+    $gallerieRepositor =new GallerieRepository();
+
     echo '  <button id="addGallerie" class="btn btn-info">Add Gallerie</button>
         <form class="form-horizontal gallerieForm hidden" action="' . $GLOBALS['appurl'] . '/gallerie/createGallerie" method="POST">
             <div class="component" data-html="true">
@@ -31,9 +33,12 @@ if (isset($gallerie))
          <div class="container">
          <h4><b>' . $gallerie[$i]->NAME . '</b></h4>
          <p>' . $gallerie[$i]->DESCRIPTION . '</p>
-         <a class="btn btn-primary" style="margin: 0 0 10px 0" href="' . $GLOBALS['appurl'] . '/gallerie/gallerieDetails?gid=' . $gallerie[$i]->GID . '">Details</a>
-         <a class="btn btn-primary" style="margin: 0 0 10px 0" href="' . $GLOBALS['appurl'] . '/gallerie/galleriePublish?gid=' . $gallerie[$i]->GID . '">Gallerie Veröffentlichen</a>
-         </div>
+         <a class="btn btn-primary" style="margin: 0 0 10px 0" href="' . $GLOBALS['appurl'] . '/gallerie/gallerieDetails?gid=' . $gallerie[$i]->GID . '">Details</a>';
+
+        if($gallerieRepositor->gallerieAlreadyPublished($gallerie[$i]->GID) == null){
+         echo '<a class="btn btn-primary" style="margin: 0 0 10px 5px" href="' . $GLOBALS['appurl'] . '/gallerie/galleriePublish?gid=' . $gallerie[$i]->GID . '">Gallerie Veröffentlichen</a>';
+        }
+         echo '</div>
          </div>';
     }
 }

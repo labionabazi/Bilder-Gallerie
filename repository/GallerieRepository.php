@@ -97,4 +97,17 @@ class GallerieRepository
         if(!$statement->execute())throw Exception($statement->error);
         return $statement->insert_id;
     }
+
+    public function gallerieAlreadyPublished($gid){
+        $freigabe = 1;
+        $query = "SELECT * FROM {$this->tableFreigabe} WHERE gid = ? and freigabe = ?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('ii',$gid, $freigabe);
+        $statement->execute();
+        $result = $statement->get_result();
+        if(!$result) throw Exception($statement->error);
+        $row = $result->fetch_object();
+        $result->close();
+        return $row;
+    }
 }
