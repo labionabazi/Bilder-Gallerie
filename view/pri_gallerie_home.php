@@ -32,6 +32,7 @@ if (isset($gallerie))
          <h4><b>' . $gallerie[$i]->NAME . '</b></h4>
          <p>' . $gallerie[$i]->DESCRIPTION . '</p>
          <a class="btn btn-primary" style="margin: 0 0 10px 0" href="' . $GLOBALS['appurl'] . '/gallerie/gallerieDetails?gid=' . $gallerie[$i]->GID . '">Details</a>
+         <a class="btn btn-primary" style="margin: 0 0 10px 0" href="' . $GLOBALS['appurl'] . '/gallerie/galleriePublish?gid=' . $gallerie[$i]->GID . '">Gallerie Veröffentlichen</a>
          </div>
          </div>';
     }

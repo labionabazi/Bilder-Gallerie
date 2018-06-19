@@ -70,4 +70,32 @@ class GallerieController
         $view->pictures = $pictureRepository->getPicturesByGid($_GET['gid']);
         $view->display();
     }
+
+    public function publicGalleries(){
+            $view = new View('pup_galleries');
+            $view->title = 'Bilder-DB';
+            $view->heading = 'Öffentliche Gallerien';
+            $gallerieRepository = new GallerieRepository();
+            $view->gallerie = $gallerieRepository->showPublicGalleries();
+            $view->display();
+    }
+
+    public function publicGallerieDetails(){
+        $pictureRepository = new PictureRepository();
+        $tagRepository = new TagsRepository();
+        $view = new View('pup_gallerie_details');
+        $view->title = 'Bilder-DB';
+        $view->heading = 'Details';
+        $gallerieRepository = new GallerieRepository();
+        $view->gallerie = $gallerieRepository->showGallerieDetails($_GET['gid']);
+        $view->pictures = $pictureRepository->getPicturesByGid($_GET['gid']);
+        $view->display();
+    }
+
+    public function galleriePublish(){
+        $gid = $_GET['gid'];
+        $gallerieRepository = new GallerieRepository();
+        $gallerieRepository->publishGallerie($gid);
+        header('Location: ' . $GLOBALS['appurl'] . '/gallerie/Home');
+    }
 }

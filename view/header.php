@@ -34,13 +34,14 @@
                 $userRepository = new UserRepository();
 
                 if(empty($_SESSION['uid'])){
+                    echo '<li><a href="'.$GLOBALS['appurl'].'/gallerie/publicGalleries">Öffentliche Gallerien</a></li>';
                     echo '<li><a href="'.$GLOBALS['appurl'].'/login">Login</a></li>';
                     echo '<li><a href="'.$GLOBALS['appurl'].'/login/registration">Registration</a></li>';
                 }else{
 
                     $user = $userRepository->getUserById($_SESSION['uid']);
 
-                    if($userRepository->getRole($_SESSION['uid'] == 1)){
+                    if($userRepository->getRole($_SESSION['uid'])->role == 1){
                         echo '<li><a href="'.$GLOBALS['appurl'].'/gallerie/home">Galleries</a></li>';
                         echo '<div class="dropdown">
                                    <button class="dropbtn">Eingeloggt als: '.$user->FIRSTNAME.'</button>
@@ -49,7 +50,7 @@
                                    <a href="'.$GLOBALS['appurl'].'/user/changeUser">Change User Data</a>
                                    </div>
                                    </div>';
-                        echo '<li><a href="'.$GLOBALS['appurl'].'/gallerie/home">Admin</a></li>';
+                        echo '<li><a href="'.$GLOBALS['appurl'].'/admin/adminHome">Admin Homepage</a></li>';
                     }else{
                         echo '<li><a href="'.$GLOBALS['appurl'].'/gallerie/home">Galleries</a></li>';
                         echo '<div class="dropdown">

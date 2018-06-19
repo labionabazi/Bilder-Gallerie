@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-2" control-label'="" for="textinput"></label>
+            <label class="col-md-2 control-label"="" for="textinput"></label>
             <div class="col-md-2">
                 <button name="sendData" type="submit" class="btn btn-success">Update Data</button>
             </div>

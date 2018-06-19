@@ -25,6 +25,30 @@ class UserRepository extends Repository
 
     }
 
+    public function getAllUsers($uid){
+        $query = "SELECT * FROM {$this->tablename} where UID != ? and role != 1";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('i',$uid);
+        $statement->execute();
+        $result = $statement->get_result();
+        $rows = array();
+        while($row = $result->fetch_object()){
+            $rows[]= $row;
+        }
+        if(!$result) throw Exception($statement->error);
+        $result->close();
+        return $rows;
+    }
+
+    public function changeUserRole($uid, $role){
+        $query = "UPDATE {$this->tablename} SET ROLE = ? WHERE UID = ? ";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('ii', $role, $uid);
+        $statement->execute();
+        if(!$statement->execute())throw Exception($statement->error);
+        return $statement->insert_id;
+    }
+
     public function getUser($email){
         $query = "SELECT * FROM {$this->tablename} WHERE email = ?";
         $statement = ConnectionHandler::getConnection()->prepare($query);
