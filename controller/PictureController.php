@@ -70,6 +70,7 @@ class PictureController
         $view->heading = 'Lightbox';
         $view->session = $_SESSION['uid'];
         $view->gallerie = $gallerieRepository->showGallerieDetails($_GET['gid']);
+        $view->pictures = $pictureRepository->getPicturesByGid($_GET['gid']);
         $view->picture = $pictureRepository->getPictureByPID($_GET['pid']);
         $view->display();
     }
@@ -157,9 +158,11 @@ class PictureController
                             var_dump($Description);
                             var_dump($tagsArray);
 
+
                             $tagIds = array();
 
                             foreach ($tagsArray as $tag) {
+                                $tag = str_replace(' ','',$tag);
                                 if ($TagsRepository->selectTag($tag) == null) {
                                     $TagsRepository->insertTags($tag, "");
                                     $id = $TagsRepository->selectTag($tag);
@@ -183,6 +186,14 @@ class PictureController
                                 // -----------------------------------------------Erzeugung Thumbnail---------------------------------------------------------------------
                                 // ---------------------------------------------------------------------------------------------------------------------------------------
                                 $img = imagecreatefromjpeg("../pictures/" . $newFileName);
+
+//                                $maxwidth = 400;
+//                                $maxheight = 400;
+
+//                                $size = getimagesize($newFileName);
+//
+//                                $width_ration = ($size[0]/$maxwidth);
+//                                $height_ratio = ($size[1]/$maxheight);
 
                                 $width = 200;
                                 $height = 200;

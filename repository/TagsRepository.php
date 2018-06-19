@@ -46,6 +46,21 @@ class TagsRepository
         return $statement->insert_id;
     }
 
+    public function selectTagsByPID($pid){
+        $query = "SELECT t.TID TID , t.TAG TAG FROM {$this->tablename} t JOIN {$this->tagPicture} tp on tp.tid = t.tid WHERE tp.PID = ?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('i',$pid);
+        $statement->execute();
+        $result = $statement->get_result();
+        $rows = array();
+        while($row = $result->fetch_object()){
+            $rows[]= $row;
+        }
+        if(!$result) throw Exception($statement->error);
+        $result->close();
+        return $rows;
+    }
+
     public function selectTagIdfromTag_Picture($pid){
         $query = "SELECT TID FROM {$this->tagPicture} WHERE PID = ?";
         $statement = ConnectionHandler::getConnection()->prepare($query);
