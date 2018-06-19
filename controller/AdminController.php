@@ -105,9 +105,11 @@ class AdminController
                         foreach($pictures as $pic){
                             unlink("../pictures/" . $pic->PICTURE);
                             unlink("../thumbs/" . $pic->PICTURE);
+                            $pictureRepository->deletePicture($pic->PID);
                         }
                     }
                     $userRepository->deleteUser($userid);
+
 
                     header('Location: ' . $GLOBALS['appurl'] . '/admin/adminHome');
                 }
