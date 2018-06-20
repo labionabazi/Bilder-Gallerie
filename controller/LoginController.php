@@ -12,12 +12,15 @@ require_once '../repository/UserRepository.php';
      */
     public function index()
     {
-        $loginRepository = new LoginRepository();
-        $view = new View('login_index');
-        $view->title = 'Bilder-DB';
-        $view->heading = 'Login';
-        $view->display();
-
+        if(isset($_SESSION['uid'])) {
+            header('Location: '.$GLOBALS['appurl'].'/gallerie/home');
+        }else{
+            $loginRepository = new LoginRepository();
+            $view = new View('login_index');
+            $view->title = 'Bilder-DB';
+            $view->heading = 'Login';
+            $view->display();
+        }
     }
 
     public function displayErrors($errors, $location){

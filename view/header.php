@@ -43,6 +43,7 @@
 
                     if($userRepository->getRole($_SESSION['uid'])->role == 1){
                         echo '<li><a href="'.$GLOBALS['appurl'].'/gallerie/home">Galleries</a></li>';
+                        echo '<li><a href="'.$GLOBALS['appurl'].'/admin/AllGalleries">All Galleries</a></li>';
                         echo '<div class="dropdown">
                                    <button class="dropbtn">Eingeloggt als: '.$user->FIRSTNAME.'</button>
                                    <div class="dropdown-content">

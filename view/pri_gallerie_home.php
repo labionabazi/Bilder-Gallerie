@@ -36,7 +36,10 @@ if (isset($gallerie))
          <a class="btn btn-primary" style="margin: 0 0 10px 0" href="' . $GLOBALS['appurl'] . '/gallerie/gallerieDetails?gid=' . $gallerie[$i]->GID . '">Details</a>';
 
         if($gallerieRepositor->gallerieAlreadyPublished($gallerie[$i]->GID) == null){
-         echo '<a class="btn btn-primary" style="margin: 0 0 10px 5px" href="' . $GLOBALS['appurl'] . '/gallerie/galleriePublish?gid=' . $gallerie[$i]->GID . '">Gallerie Veröffentlichen</a>';
+            echo '<a class="btn btn-primary" style="margin: 0 0 10px 5px" href="' . $GLOBALS['appurl'] . '/gallerie/galleriePublish?gid=' . $gallerie[$i]->GID . '&pub=1">Gallerie Veröffentlichen</a>';
+        }
+        else{
+            echo '<a class="btn btn-primary" style="margin: 0 0 10px 5px" href="' . $GLOBALS['appurl'] . '/gallerie/galleriePublish?gid=' . $gallerie[$i]->GID . '&pub=2">Gallerie nicht mehr Veröffentlichen</a>';
         }
          echo '</div>
          </div>';
