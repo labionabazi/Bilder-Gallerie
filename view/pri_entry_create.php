@@ -1,4 +1,10 @@
 <form class="form-horizontal" action=<?php echo ''.$GLOBALS['appurl'].'/picture/create?gid='.$gid; ?> method="POST" enctype="multipart/form-data">
+    <?php if(!empty($_SESSION['UploadError'])){
+        echo '<div><p>'.$_SESSION['UploadError'].'</p></div>';
+    }
+
+    ?>
+
     <div class="component" data-html="true">
         <div class="form-group">
             <label class="col-md-2 control-label" for="textinput">File</label>

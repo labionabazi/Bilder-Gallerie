@@ -121,6 +121,10 @@ class PictureController
         }
     }
 
+    public function displayErrorsUpload($error){
+        $_SESSION['UploadError'] = $error;
+    }
+
     public function create()
     {
 
@@ -128,6 +132,8 @@ class PictureController
         $TagsRepository = new TagsRepository();
 
         if (!empty($_SESSION['uid'])) {
+
+
 
             if ($_POST['send']) {
                 if (isset($_FILES['upload'])) {
@@ -137,6 +143,16 @@ class PictureController
                     $file_size = $_FILES['upload']['size'];
                     $target_dir = "../pictures/";
 
+                    $filesize = round($file_size / 1024 / 1024, 1);
+
+                    $error = array();
+
+                    if($filesize > 4){
+                        array_push($error, "Bild ist leider zu gross, Bitte wähle ein Anderes!");
+                        $this->displayErrorsUpload($error);
+                        header('Location: '.$GLOBALS['appurl'].'/picture/newPicture');
+                    }
+
                     $tagString = $_POST['Tags'];
                     $Title = $_POST['Title'];
                     $Description = $_POST['Description'];
@@ -145,14 +161,6 @@ class PictureController
 
                         if (getimagesize($file_tmp_name)) {
 
-                            $filesize = round($file_size / 1024 / 1024, 1);
-
-                            var_dump($filesize);
-
-//                            if($filesize > 4){
-//
-//                            }
-//                            xdebug_break();
                             $tagsArray = explode(',', $tagString);
                             var_dump($Title);
                             var_dump($Description);
