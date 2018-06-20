@@ -1,4 +1,4 @@
-<form class="form-horizontal" action=<?php echo ''.$GLOBALS['appurl'].'/gallerie/gallerieEditData?gid=' . $gallerie->GID . ''; ?> method="POST">
+<form class="form-horizontal" action=<?php echo ''.$GLOBALS['appurl'].'/admin/gallerieEditData?gid=' . $gallerie->GID . ''; ?> method="POST">
     <div class="component" data-html="true">
         <div class="form-group">
             <label class="col-md-2 control-label" for="textinput">Title</label>

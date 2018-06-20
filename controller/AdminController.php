@@ -250,4 +250,67 @@ class AdminController
             header('Location: ' . $GLOBALS['appurl'] . '/login');
         }
     }
+
+    public function AdminEditGallerie(){
+        $userRepository = new UserRepository();
+        if($userRepository->getRole($_SESSION['uid'])->role == 1){
+            if (!empty($_SESSION['uid'])) {
+                $gallerieRepository = new GallerieRepository();
+                $gid = $_GET['gid'];
+                $view = new View('admin_editGallerie');
+                $view->title = 'Bilder-DB';
+                $view->heading = 'Admin: Change Gallerie Data';
+                $view->session = $_SESSION['uid'];
+                $view->gallerie = $gallerieRepository->showGallerieDetails($gid);
+                $view->display();
+            } else {
+                header('Location: ' . $GLOBALS['appurl'] . '/login');
+            }
+        } else {
+                header('Location: ' . $GLOBALS['appurl'] . '/login');
+        }
+    }
+
+    public function gallerieEditData(){
+        $userRepository = new UserRepository();
+        if($userRepository->getRole($_SESSION['uid'])->role == 1){
+            if (!empty($_SESSION['uid'])) {
+                if (isset($_POST['sendData'])) {
+                    $gallerieRepository = new GallerieRepository();
+                    $gid = $_GET['gid'];
+                    $name = $_POST['name'];
+                    $description = $_POST['description'];
+                    $gallerieRepository->changeGallerieDetails($name, $description, $gid);
+                    header('Location: ' . $GLOBALS['appurl'] . '/admin/AllGalleries');
+                }
+            }else{
+                header('Location: ' . $GLOBALS['appurl'] . '/login');
+            }
+        } else {
+            header('Location: ' . $GLOBALS['appurl'] . '/login');
+        }
+    }
+
+    public function deletePicturesandTagsfromGallerie($gid){
+        $pictureRepository = new PictureRepository();
+        $pictures = $pictureRepository->getPicturesByGID($gid);
+        for($x=0; $x < count($pictures);$x++){
+            unlink("../pictures/". $pictures[$x]->PICTURE);
+            unlink("../thumbs/". $pictures[$x]->PICTURE);
+        }
+    }
+
+
+    public function gallerieDelete()
+    {
+        if (!empty($_SESSION['uid'])) {
+            $gallerieRepository = new GallerieRepository();
+            $gid = $_GET['gid'];
+            $this->deletePicturesandTagsfromGallerie($gid);
+            $gallerieRepository->DeleteGallerie($gid);
+            header('Location: ' . $GLOBALS['appurl'] . '/admin/AllGalleries');
+        }else{
+            header('Location: ' . $GLOBALS['appurl'] . '/login');
+        }
+    }
 }

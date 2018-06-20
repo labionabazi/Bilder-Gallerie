@@ -38,6 +38,10 @@ if (isset($gallerie))
          <p>User: ' . $user->FIRSTNAME . ' '.$user->SURENAME . '</p>
          <a class="btn btn-primary" style="margin: 0 0 10px 0" href="' . $GLOBALS['appurl'] . '/admin/AllGallerieDetails?gid=' . $gallerie[$i]->GID . '">Details</a>';
 
+        echo '<a class="btn btn-primary" style="margin: 0 0 10px 5px" href="' . $GLOBALS['appurl'] . '/admin/AdminEditGallerie?gid=' . $gallerie[$i]->GID . '">Edit</a>';
+        echo '<a class="btn btn-primary" style="margin: 0 0 10px 5px" href="' . $GLOBALS['appurl'] . '/admin/gallerieDelete?gid=' . $gallerie[$i]->GID . '">Delete</a>';
+
+
         if($gallerieRepositor->gallerieAlreadyPublished($gallerie[$i]->GID) == null){
             echo '<a class="btn btn-primary" style="margin: 0 0 10px 5px" href="' . $GLOBALS['appurl'] . '/admin/galleriePublish?gid=' . $gallerie[$i]->GID . '&pub=1">Gallerie Veröffentlichen</a>';
         }
