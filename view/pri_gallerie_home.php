@@ -35,8 +35,12 @@ if (isset($gallerie))
          <p>' . $gallerie[$i]->DESCRIPTION . '</p>
          <a class="btn btn-primary" style="margin: 0 0 10px 0" href="' . $GLOBALS['appurl'] . '/gallerie/gallerieDetails?gid=' . $gallerie[$i]->GID . '">Details</a>';
 
+
+        echo '<a class="btn btn-primary" style="margin: 0 0 10px 5px" href="' . $GLOBALS['appurl'] . '/gallerie/gallerieEdit?gid=' . $gallerie[$i]->GID . '">Edit</a>';
+        echo '<a class="btn btn-primary" style="margin: 0 0 10px 5px" href="' . $GLOBALS['appurl'] . '/gallerie/gallerieDelete?gid=' . $gallerie[$i]->GID . '">Delete</a>';
+
         if($gallerieRepositor->gallerieAlreadyPublished($gallerie[$i]->GID) == null){
-         echo '<a class="btn btn-primary" style="margin: 0 0 10px 5px" href="' . $GLOBALS['appurl'] . '/gallerie/galleriePublish?gid=' . $gallerie[$i]->GID . '">Gallerie Veröffentlichen</a>';
+            echo '<a class="btn btn-primary" style="margin: 0 0 10px 5px" href="' . $GLOBALS['appurl'] . '/gallerie/galleriePublish?gid=' . $gallerie[$i]->GID . '">Veröffentlichen</a>';
         }
          echo '</div>
          </div>';
@@ -47,3 +51,4 @@ else
     echo "Du hast noch keine gallerien";
 }
 ?>
+

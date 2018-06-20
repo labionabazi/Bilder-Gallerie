@@ -65,4 +65,5 @@ INSERT INTO ROLE VALUES (1, "Admin", "Admin");
 INSERT INTO ROLE VALUES (2, "User", "Wenn der Benutzer Registriert und Eingeloggt ist.");
 
 INSERT INTO USER (UID,EMAIL,FIRSTNAME,SURENAME,PASSWORD,ROLE) VALUES (1, "admin@gmail.com", "Admin", "Root", "$2y$10$ZW8lhRjDakWqODqVFDYHL.0X0aMkQh5POs.d5TcKuIcLwEYVqmHAa", 1);
-INSERT INTO USER VALUES (2, "user@gmail.com", "User", "Fritz", "9f8a2389a20ca0752aa9e95093515517e90e194c", 2);
+INSERT INTO USER (UID,EMAIL,FIRSTNAME,SURENAME,PASSWORD,ROLE) VALUES (2, "admin@gmail.ch", "Admin", "Root", "$2y$10$ZW8lhRjDakWqODqVFDYHL.0X0aMkQh5POs.d5TcKuIcLwEYVqmHAa", 1);
+INSERT INTO USER VALUES (3, "user@gmail.com", "User", "Fritz", "9f8a2389a20ca0752aa9e95093515517e90e194c", 2);

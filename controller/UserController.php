@@ -7,6 +7,9 @@
  */
 
 require_once '../repository/UserRepository.php';
+require_once '../repository/GallerieRepository.php';
+require_once '../repository/PictureRepository.php';
+require_once '../repository/TagsRepository.php';
 
 class UserController
 {
@@ -42,6 +45,26 @@ class UserController
         header('Location: '.$GLOBALS['appurl'].$location);
     }
 
+    public function deletePicturesandTagsfromUser(){
+        if(!empty($_SESSION['uid'])){
+            $uid = $_SESSION['uid'];
+            $userRepository = new GallerieRepository();
+            $pictureRepository = new PictureRepository();
+            $gallerie = $userRepository->getGallerieID($uid);
+            $piccies = array();
+            for($i = 0; $i < count($gallerie); $i++){
+                $pictures = $pictureRepository->getPicturesByID($gallerie[$i]->gid);
+                if($pictures != null){
+                    array_push($piccies, $pictures->PICTURE);
+                    }
+            }
+            for($x=0; $x < count($piccies);$x++){
+                unlink("../pictures/". $piccies[$x]);
+                unlink("../thumbs/". $piccies[$x]);
+            }
+        }
+    }
+
     public function changeUserData()
     {
         $error = false;
@@ -63,13 +86,13 @@ class UserController
                         if (preg_match($patternEmail, $email) == 1) {
                             if (empty($password) && empty($passwortRepeat)) {
                                 $userRepository->changeUserDataWithoutPassword($uid, $email, $firstname, $surename);
-                                header('Location: ' . $GLOBALS['appurl'] . '/user/changeUser');
+                                header('Location: ' . $GLOBALS['appurl'] . '/gallerie/home');
                             } else {
                                 if (preg_match($patternPW, $password)) {
                                     if ($password == $passwortRepeat) {
                                         $pw = password_hash($password, PASSWORD_DEFAULT);
                                         $userRepository->changeUserData($uid, $email, $firstname, $surename, $pw);
-                                        header('Location: ' . $GLOBALS['appurl'] . '/user/changeUser');
+                                        header('Location: ' . $GLOBALS['appurl'] . '/gallerie/home');
                                     } else {
                                         $error = true;
                                         array_push($errors, "Password repetition is not correct!");
@@ -98,6 +121,7 @@ class UserController
 
                 if ($userRepository->getRoleID($uid)->role == 1) {
                     if (count($userRepository->getUsersbyRole($rid)) > 1) {
+                        $this->deletePicturesandTagsfromUser();
                         $userRepository->deleteUser($uid);
                         session_destroy();
                         header('Location: ' . $GLOBALS['appurl'] . '/login');
@@ -106,6 +130,7 @@ class UserController
                         array_push($errors, "You are The last Admin. You can not delete your Account");
                     }
                 } else if ($userRepository->getRoleID($uid) == 2) {
+                    $this->deletePicturesandTagsfromUser();
                     $userRepository->deleteUser($uid);
                     session_destroy();
                     header('Location: ' . $GLOBALS['appurl'] . '/login');

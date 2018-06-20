@@ -55,10 +55,13 @@ class GallerieRepository
         $statement->bind_param('i',$uid);
         $statement->execute();
         $result = $statement->get_result();
+        $rows = array();
+        while($row = $result->fetch_object()){
+            $rows[]= $row;
+        }
         if(!$result) throw Exception($statement->error);
-        $row = $result->fetch_object();
         $result->close();
-        return $row;
+        return $rows;
     }
 
     public function selectGallerieId($name,$description,$uid){
@@ -110,4 +113,21 @@ class GallerieRepository
         $result->close();
         return $row;
     }
+
+    public function changeGallerieDetails($name, $description, $gid){
+        $query = "UPDATE {$this->tablename} SET NAME = ?, DESCRIPTION = ? WHERE GID = ? ";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('ssi', $name,$description, $gid);
+        $statement->execute();
+        if(!$statement->execute())throw Exception($statement->error);
+        return $statement->insert_id;
+    }
+
+    public function DeleteGallerie($gid){
+        $query = "DELETE FROM {$this->tablename} WHERE gid = ?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('i',$gid);
+        $statement->execute();
+    }
+
 }

@@ -66,7 +66,7 @@ class PictureRepository
 
     public function getPicturesByGid($gid)
     {
-        $query = "select p.GID,p.PID, p.PICTURE,p.TITLE,p.DESCRIPTION, p.THUMB from {$this->tablename} p  where p.GID = ?;";
+        $query = "select p.GID,p.PID, p.PICTURE,p.TITLE,p.DESCRIPTION, p.THUMB from {$this->tablename} p  where p.GID = ?";
         $statement = ConnectionHandler::getConnection()->prepare($query);
         $statement->bind_param('i',$gid);
         $statement->execute();
@@ -76,9 +76,21 @@ class PictureRepository
             $rows[] = $row;
         }
         if(!$result) throw new Exception($statement->error);
-        $row = $result->fetch_object();
         $result->close();
         return $rows;
+    }
+
+    public function getPicturesByID($gid)
+    {
+        $query = "select p.GID,p.PID, p.PICTURE,p.TITLE,p.DESCRIPTION, p.THUMB from {$this->tablename} p  where p.GID = ?";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('i',$gid);
+        $statement->execute();
+        $result = $statement->get_result();
+        if(!$result) throw Exception($statement->error);
+        $row = $result->fetch_object();
+        $result->close();
+        return $row;
     }
 
     public function adminDeletePicture($gid){
