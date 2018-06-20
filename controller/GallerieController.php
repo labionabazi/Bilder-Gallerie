@@ -93,9 +93,15 @@ class GallerieController
     }
 
     public function galleriePublish(){
-        $gid = $_GET['gid'];
         $gallerieRepository = new GallerieRepository();
-        $gallerieRepository->publishGallerie($gid);
+        $gid = $_GET['gid'];
+        echo $gid;
+        if($_GET['pub'] == 1) {
+            $gallerieRepository->publishGallerie($gid);
+        }
+        else if($_GET['pub'] == 2){
+            $gallerieRepository->deletePublishGallerie($gid);
+        }
         header('Location: ' . $GLOBALS['appurl'] . '/gallerie/Home');
     }
 

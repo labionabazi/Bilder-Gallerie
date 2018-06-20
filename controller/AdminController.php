@@ -9,6 +9,7 @@
 require_once '../repository/UserRepository.php';
 require_once '../repository/GallerieRepository.php';
 require_once '../repository/PictureRepository.php';
+require_once '../repository/TagsRepository.php';
 
 class AdminController
 {
@@ -99,7 +100,6 @@ class AdminController
 
                     $gallerien = $gallerieRepository->showGallerie($userid);
 
-                    $picturesArray = [];
                     foreach($gallerien as $gallerie){
                         $pictures = $pictureRepository->getPicturesByGid($gallerie->GID);
                         foreach($pictures as $pic){
@@ -121,4 +121,133 @@ class AdminController
         }
     }
 
+    public function AllGalleries(){
+        $gallerieRepository = new GallerieRepository();
+        $userRepository = new UserRepository();
+        if($userRepository->getRole($_SESSION['uid'])->role == 1){
+            if (!empty($_SESSION['uid'])) {
+                $view = new View('admin_gallerie_home');
+                $view->title = 'Bilder-DB';
+                $view->heading = 'All Galleries';
+                $view->session = $_SESSION['uid'];
+                $view->gallerie = $gallerieRepository->getAllGalleries();
+                $view->display();
+            } else {
+                header('Location: ' . $GLOBALS['appurl'] . '/login');
+            }
+        }else{
+            header('Location: ' . $GLOBALS['appurl'] . '/login');
+        }
+    }
+
+    public function AllGallerieDetails(){
+        $gallerieRepository = new GallerieRepository();
+        $pictureRepository = new PictureRepository();
+        $userRepository = new UserRepository();
+        $tagRepository = new TagsRepository();
+        if($userRepository->getRole($_SESSION['uid'])->role == 1){
+            if (!empty($_SESSION['uid'])) {
+                $view = new View('admin_gallerie_details');
+                $view->title = 'Bilder-DB';
+                $view->heading = 'Admin: Gallerie Details';
+                $view->session = $_SESSION['uid'];
+                $gallerieRepository = new GallerieRepository();
+                $view->gallerie = $gallerieRepository->showGallerieDetails($_GET['gid']);
+                $view->pictures = $pictureRepository->getPicturesByGid($_GET['gid']);
+                $view->display();
+            } else {
+                header('Location: ' . $GLOBALS['appurl'] . '/login');
+            }
+        }else{
+            header('Location: ' . $GLOBALS['appurl'] . '/login');
+        }
+    }
+
+    public function galleriePublish(){
+        $gallerieRepository = new GallerieRepository();
+        $gid = $_GET['gid'];
+        echo $gid;
+        if($_GET['pub'] == 1) {
+            $gallerieRepository->publishGallerie($gid);
+        }
+        else if($_GET['pub'] == 2){
+            $gallerieRepository->deletePublishGallerie($gid);
+        }
+        header('Location: ' . $GLOBALS['appurl'] . '/admin/AllGalleries');
+    }
+
+    public function AdminEditPicture(){
+        $userRepository = new UserRepository();
+        if($userRepository->getRole($_SESSION['uid'])->role == 1) {
+            if (!empty($_SESSION['uid'])) {
+                $pictureRepository = new PictureRepository();
+                $gallerieRepository = new GallerieRepository();
+                $view = new View('admin_editPicture');
+                $view->title = 'Bilder-DB';
+                $view->heading = 'Admin: Change Picture Entry';
+                $view->session = $_SESSION['uid'];
+                $view->gallerie = $gallerieRepository->showGallerieDetails($_GET['gid']);
+                $view->picture = $pictureRepository->getPictureByPID($_GET['pid']);
+                $view->display();
+            } else {
+                header('Location: ' . $GLOBALS['appurl'] . '/login');
+            }
+        }else{
+            header('Location: ' . $GLOBALS['appurl'] . '/login');
+        }
+    }
+
+    public function EditPicture(){
+        $userRepository = new UserRepository();
+        if($userRepository->getRole($_SESSION['uid'])->role == 1) {
+            if (!empty($_SESSION['uid'])) {
+                $pictureRepository = new PictureRepository();
+                if ($_POST['send']) {
+                    $title = $_POST['name'];
+                    $description = $_POST['description'];
+                    $pid = $_GET['pid'];
+                    $gid = $_GET['gid'];
+
+                    $pictureRepository->updatePicture($pid, $title, $description);
+
+                    header('Location: ' . $GLOBALS['appurl'] . '/admin/AllGallerieDetails?gid=' . $_GET['gid']);
+
+                } else {
+                    header('Location: ' . $GLOBALS['appurl'] . '/admin/AllGallerieDetails?gid=' . $_GET['gid']);
+                }
+
+
+            } else {
+                header('Location: ' . $GLOBALS['appurl'] . '/login');
+            }
+        }else{
+            header('Location: ' . $GLOBALS['appurl'] . '/login');
+        }
+    }
+
+    public function AdminDeletePicture(){
+        $userRepository = new UserRepository();
+        if($userRepository->getRole($_SESSION['uid'])->role == 1) {
+            if (!empty($_SESSION['uid'])) {
+                $pictureRepository = new PictureRepository();
+                $tagRepository = new TagsRepository();
+                $picture = $pictureRepository->getPictureByPID($_GET['pid']);
+                unlink("../pictures/" . $picture->PICTURE);
+                unlink("../thumbs/" . $picture->PICTURE);
+                $pictureRepository->deletePicture($_GET['pid']);
+                $tagIds = $tagRepository->selectTagIdfromTag_Picture($_GET['pid']);
+
+                foreach ($tagIds as $tags) {
+                    $tagRepository->deleteTag($tags->TID);
+                }
+
+                header('Location: ' . $GLOBALS['appurl'] . '/admin/AllGallerieDetails?gid=' . $_GET['gid'] . '');
+
+            } else {
+                header('Location: ' . $GLOBALS['appurl'] . '/login');
+            }
+        }else{
+            header('Location: ' . $GLOBALS['appurl'] . '/login');
+        }
+    }
 }

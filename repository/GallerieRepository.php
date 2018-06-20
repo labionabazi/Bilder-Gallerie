@@ -130,4 +130,24 @@ class GallerieRepository
         $statement->execute();
     }
 
+    public function deletePublishGallerie($gid){
+        $query = "DELETE FROM {$this->tableFreigabe} WHERE gid = ? and freigabe = 1";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->bind_param('i',$gid);
+        $statement->execute();
+    }
+
+    public function getAllGalleries(){
+        $query = "SELECT * FROM {$this->tablename}";
+        $statement = ConnectionHandler::getConnection()->prepare($query);
+        $statement->execute();
+        $result = $statement->get_result();
+        $rows = array();
+        while($row = $result->fetch_object()){
+            $rows[]= $row;
+        }
+        if(!$result) throw Exception($statement->error);
+        $result->close();
+        return $rows;
+    }
 }
