@@ -261,4 +261,9 @@ class PictureController
             header('Location: ' . $GLOBALS['appurl'] . '/login');
         }
     }
+
+    public function notFound(){
+        $view = new View("notfound");
+        $view->display();
+    }
 }

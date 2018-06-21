@@ -159,4 +159,9 @@ class GallerieController
         }
     }
 
+
+    public function notFound(){
+        $view = new View("notfound");
+        $view->display();
+    }
 }

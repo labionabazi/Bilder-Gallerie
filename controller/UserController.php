@@ -145,4 +145,9 @@ class UserController
             $this->displayErrors($errors, "/user/changeUser");
         }
     }
+
+    public function notFound(){
+        $view = new View("notfound");
+        $view->display();
+    }
 }

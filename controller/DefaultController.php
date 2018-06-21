@@ -40,5 +40,10 @@
       $view->heading = 'Bilderdatenbank';
       $view->display();
     }
+      public function notFound(){
+          $view = new View("notfound");
+          $view->display();
+      }
+
   }
 ?>

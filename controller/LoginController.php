@@ -128,6 +128,9 @@ require_once '../repository/UserRepository.php';
             }
 
     }
-
+      public function notFound(){
+          $view = new View("notfound");
+          $view->display();
+      }
 }
 ?>

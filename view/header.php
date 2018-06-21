@@ -71,7 +71,7 @@
     </div>
 </nav>
 <div class="container">
-    <h3><?= $heading ?></h3>
+    <h3><?= @$heading ?></h3>
 <?php if(isset($_SESSION['errors'])){
     foreach ($_SESSION['errors'] as $value){
         echo "<div class='alert alert-danger'>".$value."</div>";
