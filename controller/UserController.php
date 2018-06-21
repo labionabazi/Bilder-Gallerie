@@ -45,22 +45,23 @@ class UserController
         header('Location: '.$GLOBALS['appurl'].$location);
     }
 
-    public function deletePicturesandTagsfromUser(){
-        if(!empty($_SESSION['uid'])){
+    public function deletePicturesandTagsfromUser()
+    {
+        if (!empty($_SESSION['uid'])) {
             $uid = $_SESSION['uid'];
             $userRepository = new GallerieRepository();
             $pictureRepository = new PictureRepository();
             $gallerie = $userRepository->getGallerieID($uid);
             $piccies = array();
-            for($i = 0; $i < count($gallerie); $i++){
-                $pictures = $pictureRepository->getPicturesByID($gallerie[$i]->gid);
-                if($pictures != null){
-                    array_push($piccies, $pictures->PICTURE);
+            for ($i = 0; $i < count($gallerie); $i++) {
+                $pictures = $pictureRepository->getPicturesByGid($gallerie[$i]->gid);
+                if ($pictures != null) {
+
+                    foreach ($pictures as $pic) {
+                        unlink("../pictures/" . $pic->PICTURE);
+                        unlink("../thumbs/" . $pic->PICTURE);
                     }
-            }
-            for($x=0; $x < count($piccies);$x++){
-                unlink("../pictures/". $piccies[$x]);
-                unlink("../thumbs/". $piccies[$x]);
+                }
             }
         }
     }
@@ -129,7 +130,7 @@ class UserController
                         $error = true;
                         array_push($errors, "You are The last Admin. You can not delete your Account");
                     }
-                } else if ($userRepository->getRoleID($uid) == 2) {
+                } else if ($userRepository->getRoleID($uid)->role == 2) {
                     $this->deletePicturesandTagsfromUser();
                     $userRepository->deleteUser($uid);
                     session_destroy();
