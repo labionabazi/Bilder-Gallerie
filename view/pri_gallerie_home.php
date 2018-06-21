@@ -53,5 +53,6 @@ else
 {
     echo "Du hast noch keine gallerien";
 }
+echo '<a class="btn btn-primary" style="margin: 0 0 10px 5px" href="' . $GLOBALS['appurl'] . '/user/deletePicturesandTagsfromUser">Delete</a>';
 ?>
 

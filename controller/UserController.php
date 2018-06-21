@@ -62,6 +62,7 @@ class UserController
                         unlink("../thumbs/" . $pic->PICTURE);
                     }
                 }
+                $pictureRepository->deletePicturebyGID($gallerie[$i]->gid);
             }
         }
     }

@@ -143,6 +143,7 @@ class GallerieController
                     unlink("../pictures/". $pictures[$x]->PICTURE);
                     unlink("../thumbs/". $pictures[$x]->PICTURE);
                 }
+                $pictureRepository->deletePicturebyGID($gid);
     }
 
     public function gallerieDelete()
